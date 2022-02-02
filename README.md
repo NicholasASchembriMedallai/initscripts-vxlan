@@ -15,3 +15,20 @@ Sample configuration for a `vxlan` interface:
 	OPTIONS="nolearning"
 	BRIDGE="br1000"
 
+
+Collect PHYS_DEV and LOCAL_ADDR and VNI and DSTPORT
+```
+# ip r
+ip r|grep src| cut -d' ' -f3,9
+```
+```
+# PHYS_DEV and LOCAL_ADDR
+eno1 192.168.1.53
+```
+```
+# Find VNI for DSTPORT 4789 
+tcpdump -nnni eno1 udp port 4789|grep VXLAN|tail -n1|awk '{print $(NF-1),$NF }'
+```
+```
+vni 7310759
+```
